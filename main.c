@@ -1,17 +1,14 @@
 #include <stdio.h>
 
-// Define the size of the tic-tac-toe board
-#define SIZE 3
-
 // Function prototypes
-void printBoard(char board[SIZE][SIZE]);      // Function to print the game board
-int checkWin(char board[SIZE][SIZE]);         // Function to check if there is a winner
-int checkDraw(char board[SIZE][SIZE]);        // Function to check if the game is a draw
-void makeMove(char board[SIZE][SIZE], int player); // Function to process a player's move
+void printBoard(char board[3][3]);      // Function to print the game board
+int checkWin(char board[3][3]);         // Function to check if there is a winner
+int checkDraw(char board[3][3]);        // Function to check if the game is a draw
+void makeMove(char board[3][3], int player); // Function to process a player's move
 
 int main() {
     // Initialize the game board with numbers 1 to 9
-    char board[SIZE][SIZE] = {
+    char board[3][3] = {
         {' ', ' ', ' '},
         {' ', ' ', ' '},
         {' ', ' ', ' '}
@@ -48,7 +45,7 @@ int main() {
 }
 
 // Function to print the current state of the game board
-void printBoard(char board[SIZE][SIZE]) {
+void printBoard(char board[3][3]) {
 
     printf("\n");
     printf("   1   2   3");
@@ -56,22 +53,22 @@ void printBoard(char board[SIZE][SIZE]) {
     
     char row_label = 'a'; // Initialize the row label to 'a'
 
-    for (int i = 0; i < SIZE; i++) {  // Loop through each row
+    for (int i = 0; i < 3; i++) {  // Loop through each row
         printf("%c ", row_label++); // Print the row label and increment it for the next row
-        for (int j = 0; j < SIZE; j++) {  // Loop through each column
+        for (int j = 0; j < 3; j++) {  // Loop through each column
             printf(" %c ", board[i][j]);  // Print the cell value
-            if (j < SIZE - 1) printf("|"); // Print column separator
+            if (j < 3 - 1) printf("|"); // Print column separator
         }
         printf("\n");
-        if (i < SIZE - 1) printf("  ---|---|---\n"); // Print row separator
+        if (i < 3 - 1) printf("  ---|---|---\n"); // Print row separator
     }
     printf("\n");
 }
 
 // Function to check if there is a winner
-int checkWin(char board[SIZE][SIZE]) {
+int checkWin(char board[3][3]) {
     // Check each row and column for a win
-    for (int i = 0; i < SIZE; i++) {
+    for (int i = 0; i < 3; i++) {
         if ((board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X') || (board[i][0] == 'O' && board[i][1] == 'O' && board[i][2] == 'O'))
             return 1;  // Win in a row
         if ((board[0][i] == 'X' && board[1][i] == 'X' && board[2][i] == 'X') || (board[0][i] == 'O' && board[1][i] == 'O' && board[2][i] == 'O'))
@@ -88,10 +85,10 @@ int checkWin(char board[SIZE][SIZE]) {
 }
 
 // Function to check if the game is a draw
-int checkDraw(char board[SIZE][SIZE]) {
+int checkDraw(char board[3][3]) {
     // Loop through each cell on the board
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
             // If any cell is not marked by 'X' or 'O', the game is not a draw
             if (board[i][j] != 'X' && board[i][j] != 'O')
                 return 0;
@@ -101,7 +98,7 @@ int checkDraw(char board[SIZE][SIZE]) {
 }
 
 // Function to process a player's move
-void makeMove(char board[SIZE][SIZE], int player) {
+void makeMove(char board[3][3], int player) {
     int move;  // Variable to store the player's chosen move
     char mark = (player == 1) ? 'X' : 'O';  // Determine the player's mark ('X' or 'O')
     while (1) {
@@ -128,28 +125,3 @@ void makeMove(char board[SIZE][SIZE], int player) {
         }
     }
 }
-
-// void makeMove(char board[SIZE][SIZE], int player) {
-//     int move;  // Variable to store the player's chosen move
-//     char mark = (player == 1) ? 'X' : 'O';  // Determine the player's mark ('X' or 'O')
-//     while (1) {
-//         // Prompt the player for a move
-//         printf("Player %d, enter your move (1-9): ", player);
-//         scanf("%d", &move);
-//         // Validate the move
-//         if (move < 1 || move > 9) {
-//             printf("Invalid move! Try again.\n");
-//         } else {
-//             // Calculate the row and column based on the move
-//             int row = (move - 1) / SIZE;
-//             int col = (move - 1) % SIZE;
-//             // Check if the chosen cell is empty
-//             if (board[row][col] != 'X' && board[row][col] != 'O') {
-//                 board[row][col] = mark;  // Mark the cell with the player's symbol
-//                 break;
-//             } else {
-//                 printf("Square already taken! Try again.\n");
-//             }
-//         }
-//     }
-// }
