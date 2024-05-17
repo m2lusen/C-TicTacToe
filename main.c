@@ -49,14 +49,21 @@ int main() {
 
 // Function to print the current state of the game board
 void printBoard(char board[SIZE][SIZE]) {
+
     printf("\n");
+    printf("   1   2   3");
+    printf("\n");
+    
+    char row_label = 'a'; // Initialize the row label to 'a'
+
     for (int i = 0; i < SIZE; i++) {  // Loop through each row
+        printf("%c ", row_label++); // Print the row label and increment it for the next row
         for (int j = 0; j < SIZE; j++) {  // Loop through each column
             printf(" %c ", board[i][j]);  // Print the cell value
             if (j < SIZE - 1) printf("|"); // Print column separator
         }
         printf("\n");
-        if (i < SIZE - 1) printf("---|---|---\n"); // Print row separator
+        if (i < SIZE - 1) printf("  ---|---|---\n"); // Print row separator
     }
     printf("\n");
 }
@@ -65,15 +72,16 @@ void printBoard(char board[SIZE][SIZE]) {
 int checkWin(char board[SIZE][SIZE]) {
     // Check each row and column for a win
     for (int i = 0; i < SIZE; i++) {
-        if (board[i][0] == board[i][1] && board[i][1] == board[i][2])
+        if ((board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X') || (board[i][0] == 'O' && board[i][1] == 'O' && board[i][2] == 'O'))
             return 1;  // Win in a row
-        if (board[0][i] == board[1][i] && board[1][i] == board[2][i])
+        if ((board[0][i] == 'X' && board[1][i] == 'X' && board[2][i] == 'X') || (board[0][i] == 'O' && board[1][i] == 'O' && board[2][i] == 'O'))
+
             return 1;  // Win in a column
     }
     // Check both diagonals for a win
-    if (board[0][0] == board[1][1] && board[1][1] == board[2][2])
+    if ((board[0][0] == 'X' && board[1][1] == 'X' && board[2][2] == 'X') || (board[0][0] == 'O' && board[1][1] == 'O' && board[2][2] == 'O'))
         return 1;  // Win in the main diagonal
-    if (board[0][2] == board[1][1] && board[1][1] == board[2][0])
+    if ((board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X') || (board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O'))
         return 1;  // Win in the anti-diagonal
 
     return 0;  // No win
@@ -97,16 +105,19 @@ void makeMove(char board[SIZE][SIZE], int player) {
     int move;  // Variable to store the player's chosen move
     char mark = (player == 1) ? 'X' : 'O';  // Determine the player's mark ('X' or 'O')
     while (1) {
-        // Prompt the player for a move
-        printf("Player %d, enter your move (1-9): ", player);
-        scanf("%d", &move);
+        //Prompt player for move
+        printf("Player %d, enter your move (e.g., 1a, 2b, etc.): ", player);
+        char move[3]; // Array to store the move as a string (e.g., "1a")
+        scanf("%2s", move); // Read the move as a string with maximum length 2
+
         // Validate the move
-        if (move < 1 || move > 9) {
+        if ((move[0] < '1' || move[0] > '3') || (move[1] < 'a' || move[1] > 'c')) {
             printf("Invalid move! Try again.\n");
+
         } else {
             // Calculate the row and column based on the move
-            int row = (move - 1) / SIZE;
-            int col = (move - 1) % SIZE;
+            int col = move[0] - '0' - 1;
+            int row = move[1] - 'a';
             // Check if the chosen cell is empty
             if (board[row][col] != 'X' && board[row][col] != 'O') {
                 board[row][col] = mark;  // Mark the cell with the player's symbol
@@ -117,3 +128,28 @@ void makeMove(char board[SIZE][SIZE], int player) {
         }
     }
 }
+
+// void makeMove(char board[SIZE][SIZE], int player) {
+//     int move;  // Variable to store the player's chosen move
+//     char mark = (player == 1) ? 'X' : 'O';  // Determine the player's mark ('X' or 'O')
+//     while (1) {
+//         // Prompt the player for a move
+//         printf("Player %d, enter your move (1-9): ", player);
+//         scanf("%d", &move);
+//         // Validate the move
+//         if (move < 1 || move > 9) {
+//             printf("Invalid move! Try again.\n");
+//         } else {
+//             // Calculate the row and column based on the move
+//             int row = (move - 1) / SIZE;
+//             int col = (move - 1) % SIZE;
+//             // Check if the chosen cell is empty
+//             if (board[row][col] != 'X' && board[row][col] != 'O') {
+//                 board[row][col] = mark;  // Mark the cell with the player's symbol
+//                 break;
+//             } else {
+//                 printf("Square already taken! Try again.\n");
+//             }
+//         }
+//     }
+// }
